@@ -5,7 +5,7 @@ fish.head()
 
 ## Species열은 target으로 나머지 열은 input으로
 fish_input = fish[['Weight','Length','Diagonal','Height','Width']].to_numpy()
-fish_target = fish[['Species']].to_numpy()
+fish_target = fish['Species'].to_numpy()
 
 ## 훈련 세트, 테스트 세트 나누기
 from sklearn.model_selection import train_test_split
@@ -23,6 +23,8 @@ from sklearn.neighbors import KNeighborsClassifier
 kn = KNeighborsClassifier(n_neighbors=3)
 kn.fit(train_scaled, train_target)
 
+import numpy as np
+
 
 ## 로지스틱 회귀로 이진분류 수행
 # 불리언 인덱싱(넘파이 배열을 True, False 값을 전달하여 행을 선택)을 이용해 Bream과 Smelt만 골라냄
@@ -34,3 +36,16 @@ target_bream_smelt = train_target[bream_smelt_indexes]
 from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression()
 lr.fit(train_bream_smelt, target_bream_smelt)
+
+## 로지스틱 회귀로 다중 분류 수행하기 
+lr = LogisticRegression(C=20, max_iter=1000)
+lr.fit(train_scaled, train_target)
+print(lr.score(train_scaled,train_target))
+print(lr.score(test_scaled,test_target))
+
+#예측값 출력
+print(lr.predict(test_scaled[:5]))
+
+#확률 출력
+proba = lr.predict_proba(test_scaled[:5])
+print(np.round(proba, decimals=3))
