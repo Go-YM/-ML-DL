@@ -17,7 +17,7 @@ ss.fit(train_input)
 train_scaled = ss.transform(train_input)
 test_scaled = ss.transform(test_input)
 
-## 확률적 경사 하강법 사용
+## 확률적 경사 하강법 사용 (유튜브로 이해)
 from sklearn.linear_model import SGDClassifier
 
 sc = SGDClassifier(loss='log', max_iter=10, random_state = 42)
